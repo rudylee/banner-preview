@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name bannerPreviewApp.controller:MainCtrl
+ * @name bannerPreviewApp.controller:BannersCtrl
  * @description
- * # MainCtrl
+ * # BannersCtrl
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('MainCtrl', function ($scope) {
+  .controller('BannersCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
