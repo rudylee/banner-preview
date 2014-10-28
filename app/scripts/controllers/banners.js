@@ -1,3 +1,4 @@
+/* global Firebase */
 'use strict';
 
 /**
@@ -8,10 +9,9 @@
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('BannersCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('BannersCtrl', function ($scope, $firebase) {
+    var ref = new Firebase('https://banner-preview.firebaseio.com/');
+    var sync = $firebase(ref);
+
+    $scope.banners = sync.$asObject();
   });

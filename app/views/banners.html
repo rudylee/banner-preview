@@ -1,1 +1,15 @@
-<p>This is the banners view.</p>
+<h1>Banners</h1>
+<a class="btn btn-primary">Add Banner</a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="banner in banners">
+      <td>{{banner.name}}</td>
+    </tr>
+  </tbody>
+</table>
