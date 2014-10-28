@@ -10,7 +10,7 @@
  */
 angular.module('bannerPreviewApp')
   .controller('BannersCtrl', function ($scope, $firebase) {
-    var ref = new Firebase('https://banner-preview.firebaseio.com/');
+    var ref = new Firebase('https://banner-preview.firebaseio.com/banners');
     var sync = $firebase(ref);
 
     $scope.banners = sync.$asObject();
