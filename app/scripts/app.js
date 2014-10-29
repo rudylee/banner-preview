@@ -28,6 +28,10 @@ angular
         templateUrl: 'views/banners_create.html',
         controller: 'BannersCreateCtrl'
       })
+      .when('/banners_edit/:id', {
+        templateUrl: 'views/banners_edit.html',
+        controller: 'BannersEditCtrl'
+      })
       .otherwise({
         redirectTo: '/'
       });
