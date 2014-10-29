@@ -269,6 +269,22 @@ module.exports = function (grunt) {
     //   dist: {}
     // },
 
+    replace: {
+      development: {
+        options: {
+          patterns: [{
+            json: grunt.file.readJSON('./config/environments/development.json')
+          }]
+        },
+        files: [{
+          expand: true,
+          flatten: true,
+          src: ['./config/config.js'],
+          dest: '<%= yeoman.app %>/scripts/services/'
+        }]
+      }
+    },
+
     imagemin: {
       dist: {
         files: [{
