@@ -16,7 +16,9 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'firebase'
+    'firebase',
+    'angularFileUpload',
+    'services.config'
   ])
   .config(function ($routeProvider) {
     $routeProvider

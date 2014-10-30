@@ -1,10 +1,21 @@
 <h1>Add Banner</h1>
 
+<div class="progress" ng-repeat="file in selectedFiles">
+  <div class="progress-bar" role="progressbar" aria-valuenow="{{progress[$index]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress[$index]}}%;">
+    <span class="sr-only">{{progress[$index]}}% Complete</span>
+  </div>
+</div>
+
 <form role="form">
   <div class="form-group">
     <label for="name">Client Name</label>
     <input type="name" ng-model="banner.name" class="form-control" placeholder="Enter client name">
   </div>
+
+  <input type="file" ng-file-select="onFileSelect($files)" multiple accept="*">
+  <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>
+  <div ng-file-drop="onFileSelect($files)" ng-file-drag-over-class="optional-css-class-name-or-function" ng-show="dropSupported">drop files here</div>
+  <div ng-file-drop-available="dropSupported=true" ng-show="!dropSupported">HTML5 Drop File is not supported!</div>
 
   <button type="button" class="btn btn-primary" ng-click="save(banner)">Save</button>
 </form>
