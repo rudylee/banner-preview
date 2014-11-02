@@ -1,4 +1,9 @@
 {
   "firebaseUrl": "firebaseUrl",
-  "AWSAccessKeyId": "AWSAccessKeyId"
+  "AWS": {
+    "url": "s3Url",
+    "AccessKeyId": "s3AccessKey", 
+    "policy": "s3Policy",
+    "signature": "s3Signature"
+  }
 }
