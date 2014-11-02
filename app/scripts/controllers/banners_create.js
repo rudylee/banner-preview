@@ -10,7 +10,7 @@
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('BannersCreateCtrl', function ($scope, $firebase, $upload, configuration) {
+  .controller('BannersCreateCtrl', function ($scope, $firebase, $upload, $q, configuration) {
     $scope.selectedFiles = [];
     $scope.progress = [];
     $scope.banner = {
@@ -18,42 +18,45 @@ angular.module('bannerPreviewApp')
       name: ''
     };
 
+    var defer = $q.defer();
     var ref = new Firebase(configuration.firebaseUrl);
     var sync = $firebase(ref);
 
     $scope.onFileSelect = function($files) {
-      // Save banner before uploading file
+      // Save banner before file upload
       save();
 
-      for (var i = 0; i < $files.length; i++) {
-        var file = $files[i];
-        var index = $scope.selectedFiles.push(file) - 1;
+      defer.promise.then(function() {
+        for (var i = 0; i < $files.length; i++) {
+          var file = $files[i];
+          var index = $scope.selectedFiles.push(file) - 1;
 
-        $upload.upload({
-          url: configuration.AWS.url,
-          method: 'POST',
-          data : {
-            key: $scope.banner.id + '/' + file.name, 
-            AWSAccessKeyId: configuration.AWS.AccessKeyId,
-            acl: 'private', 
-            policy: configuration.AWS.policy,
-            signature: configuration.AWS.signature,
-            'Content-Type': file.type !== '' ? file.type : 'application/octet-stream', 
-            filename: file.name 
-          },
-          file: file,
-        }).progress(function(event) {
-          $scope.progress[index] = parseInt(100.0 * event.loaded / event.total);
-        }).success(function() {
-          addFile(file.name);
-        });
-      }
+          $upload.upload({
+            url: configuration.AWS.url,
+            method: 'POST',
+            data : {
+              key: $scope.banner.id + '/' + file.name, 
+              AWSAccessKeyId: configuration.AWS.AccessKeyId,
+              acl: 'private', 
+              policy: configuration.AWS.policy,
+              signature: configuration.AWS.signature,
+              'Content-Type': file.type !== '' ? file.type : 'application/octet-stream', 
+              filename: file.name 
+            },
+            file: file,
+          }).progress(function(event) {
+            $scope.progress[index] = parseInt(100.0 * event.loaded / event.total);
+          }).success(function() {
+            addFile(file.name);
+          });
+        }
+      });
     };
 
     // Saves the banner to Firebase
     function save() {
       if($scope.banner.id !== 0) {
-        return;
+        defer.resolve();
       }
 
       if($scope.banner.name === '') {
@@ -64,6 +67,7 @@ angular.module('bannerPreviewApp')
         name: $scope.banner.name,
       }).then(function(ref) {
         $scope.banner.id = ref.name();
+        defer.resolve();
       });
     }
 
