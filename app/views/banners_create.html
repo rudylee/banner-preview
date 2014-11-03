@@ -1,5 +1,14 @@
 <h1>Add Banner</h1>
 
+<div ng-repeat="file in selectedFiles">
+  {{file.name}}
+  <div class="progress">
+    <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{progress[$index]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress[$index]}}%;">
+      {{progress[$index]}}% 
+    </div>
+  </div>
+</div>
+
 <form role="form">
   <div class="form-group">
     <label for="name">Client Name</label>
@@ -10,16 +19,13 @@
     <label for="file">Files</label>
     <input type="file" ng-file-select="onFileSelect($files)" multiple accept="*">
     <div class="button" ng-file-select="onFileSelect($files)" data-multiple="true"></div>
-
-    <div ng-repeat="file in selectedFiles">
-      {{file.name}}
-      <div class="progress">
-        <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{progress[$index]}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress[$index]}}%;">
-          {{progress[$index]}}% 
-        </div>
-      </div>
-    </div>
   </div>
 
-  <button type="button" class="btn btn-primary" ng-click="save(banner)">Save</button>
+  <div class="form-group" ng-repeat="file in banner.files">
+    <label>{{file.filename}}</label>
+    <input type="text" ng-model="file.title" />
+  </div>
+
+  <button type="button" class="btn btn-primary" ng-show="banner.id === 0" ng-click="save()">Save</button>
+  <button type="button" class="btn btn-primary" ng-show="banner.id !== 0" ng-click="update()">Update</button>
 </form>
