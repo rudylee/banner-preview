@@ -13,20 +13,17 @@ angular.module('bannerPreviewApp')
   .controller('BannersCreateCtrl', function ($scope, $firebase, $upload, $q, banner, configuration) {
     $scope.selectedFiles = [];
     $scope.progress = [];
-    $scope.banner = {
-      id:  0,
-      name: ''
-    };
 
     var defer = $q.defer();
-
+    var ref = new Firebase(configuration.firebaseUrl);
+    var sync = $firebase(ref);
 
     if(banner) {
       $scope.banner = banner;
-    } else {
-      var ref = new Firebase(configuration.firebaseUrl);
-      var sync = $firebase(ref);
-    }
+
+      ref = new Firebase(configuration.firebaseUrl + '/' + $scope.banner.$id);
+      sync = $firebase(ref);
+    } 
 
     $scope.onFileSelect = function($files) {
       // Save banner before file upload
@@ -41,7 +38,7 @@ angular.module('bannerPreviewApp')
             url: configuration.AWS.url,
             method: 'POST',
             data : {
-              key: ref.name() + '/' + file.name, 
+              key: $scope.banner.$id + '/' + file.name, 
               AWSAccessKeyId: configuration.AWS.AccessKeyId,
               acl: 'private', 
               policy: configuration.AWS.policy,
@@ -54,7 +51,13 @@ angular.module('bannerPreviewApp')
             $scope.progress[index] = parseInt(100.0 * event.loaded / event.total);
           }).success(function() {
             $scope.selectedFiles.splice(index, 1);
-            addFile(file.name);
+
+            var filesSync = $firebase(ref.child('files'));
+
+            filesSync.$push({
+              title: file.name,
+              filename: file.name 
+            });
           });
         }
       });
@@ -62,17 +65,18 @@ angular.module('bannerPreviewApp')
 
     // Saves the banner to Firebase
     $scope.save = function () {
-      if($scope.banner.id !== 0) {
+      if($scope.banner !== undefined) {
         defer.resolve();
         return;
       }
 
-      if($scope.banner.name === '') {
-        $scope.banner.name = 'Untitled';
+      var name = 'Untitled';
+      if(angular.isObject($scope.banner)) {
+        name = $scope.banner.name;
       }
 
       sync.$push({
-        name: $scope.banner.name,
+        name: name,
         files: []
       }).then(function(pushRef) {
         // Updates the reference to Firebase
@@ -88,15 +92,4 @@ angular.module('bannerPreviewApp')
     $scope.update = function() {
       $scope.banner.$save();
     };
-
-    // Updates files list on Firebase
-    function addFile(filename) {
-      var filesSync = $firebase(ref.child('files'));
-
-      filesSync.$push({
-        title: filename,
-        filename: filename 
-      });
-    }
-
   });
