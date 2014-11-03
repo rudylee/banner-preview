@@ -10,7 +10,7 @@
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('BannersCreateCtrl', function ($scope, $firebase, $upload, $q, configuration) {
+  .controller('BannersCreateCtrl', function ($scope, $firebase, $upload, $q, banner, configuration) {
     $scope.selectedFiles = [];
     $scope.progress = [];
     $scope.banner = {
@@ -19,8 +19,14 @@ angular.module('bannerPreviewApp')
     };
 
     var defer = $q.defer();
-    var ref = new Firebase(configuration.firebaseUrl);
-    var sync = $firebase(ref);
+
+
+    if(banner) {
+      $scope.banner = banner;
+    } else {
+      var ref = new Firebase(configuration.firebaseUrl);
+      var sync = $firebase(ref);
+    }
 
     $scope.onFileSelect = function($files) {
       // Save banner before file upload

@@ -1,3 +1,4 @@
+/* global Firebase */
 'use strict';
 
 /**
@@ -28,11 +29,30 @@ angular
       })
       .when('/banners_create', {
         templateUrl: 'views/banners_create.html',
-        controller: 'BannersCreateCtrl'
+        controller: 'BannersCreateCtrl',
+        resolve: {
+          banner: function($q) {
+            var defer = $q.defer();
+            defer.resolve();
+            return defer.promise;
+          }
+        }
       })
       .when('/banners_edit/:id', {
-        templateUrl: 'views/banners_edit.html',
-        controller: 'BannersEditCtrl'
+        templateUrl: 'views/banners_create.html',
+        controller: 'BannersCreateCtrl',
+        resolve: {
+          banner: function($q, $firebase, $route, configuration) {
+            var defer = $q.defer();
+            var obj = $firebase(new Firebase(configuration.firebaseUrl + '/' + $route.current.params.id)).$asObject();
+
+            obj.$loaded().then(function() {
+              defer.resolve(obj);
+            });
+
+            return defer.promise;
+          }
+        }
       })
       .otherwise({
         redirectTo: '/'
