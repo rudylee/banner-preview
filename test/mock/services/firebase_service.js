@@ -1,5 +1,9 @@
 angular.module('FirebaseServiceMock', []).provider('FirebaseService', function() {
-  this.getBanners = function() {
-    return {};
-  };
+  this.$get = function() {
+    return {
+      getBanners: function() {
+        return {};
+      }
+    };
+  }
 });
