@@ -3,13 +3,13 @@
 
 /**
  * @ngdoc service
- * @name bannerPreviewApp.FirebaseService
+ * @name bannerPreviewApp.BannerService
  * @description
- * # FirebaseService
+ * # BannerService
  * Service in the bannerPreviewApp.
  */
 angular.module('bannerPreviewApp')
-  .service('FirebaseService', function FirebaseService($firebase) {
+  .service('BannerService', function BannerService($firebase) {
     this.getBanners = function() {
       var ref = new Firebase('https://banner-preview.firebaseio.com/banners');
       var sync = $firebase(ref);

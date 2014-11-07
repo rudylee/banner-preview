@@ -8,6 +8,6 @@
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('BannersCtrl', function ($scope, FirebaseService) {
-    $scope.banners = FirebaseService.getBanners();
+  .controller('BannersCtrl', function ($scope, BannerService) {
+    $scope.banners = BannerService.getBanners();
   });
