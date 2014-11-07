@@ -9,9 +9,9 @@
  * Service in the bannerPreviewApp.
  */
 angular.module('bannerPreviewApp')
-  .service('BannerService', function BannerService($firebase) {
+  .service('BannerService', function BannerService($firebase, configuration) {
     this.getBanners = function() {
-      var ref = new Firebase('https://banner-preview.firebaseio.com/banners');
+      var ref = new Firebase(configuration.firebaseUrl);
       var sync = $firebase(ref);
 
       return sync.$asObject();
