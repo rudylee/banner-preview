@@ -1,4 +1,3 @@
-/* global Firebase */
 'use strict';
 
 /**
@@ -40,11 +39,11 @@ angular
       })
       .when('/banners_edit/:id', {
         templateUrl: 'views/banners_create.html',
-        controller: 'BannersCreateCtrl',
+        controller: 'BannersEditCtrl',
         resolve: {
-          banner: function($q, $firebase, $route, configuration) {
+          banner: function($q, BannerService, $route) {
             var defer = $q.defer();
-            var obj = $firebase(new Firebase(configuration.firebaseUrl + '/' + $route.current.params.id)).$asObject();
+            var obj = BannerService.getBanner($route.current.params.id);
 
             obj.$loaded().then(function() {
               defer.resolve(obj);

@@ -18,13 +18,6 @@ angular.module('bannerPreviewApp')
     var ref = new Firebase(configuration.firebaseUrl);
     var sync = $firebase(ref);
 
-    if(banner) {
-      $scope.banner = banner;
-
-      ref = new Firebase(configuration.firebaseUrl + '/' + $scope.banner.$id);
-      sync = $firebase(ref);
-    } 
-
     $scope.onFileSelect = function($files) {
       // Save banner before file upload
       $scope.save();
