@@ -23,4 +23,11 @@ angular.module('bannerPreviewApp')
 
       return sync.$asObject();
     };
+
+    this.remove = function(id) {
+      var ref = new Firebase(configuration.firebaseUrl + '/' + id);
+      var sync = $firebase(ref);
+
+      sync.$remove();
+    };
   });
