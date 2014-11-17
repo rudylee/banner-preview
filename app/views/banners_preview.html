@@ -1,0 +1,10 @@
+<h1>{{banner.name}}</h1>
+
+<div class="media" ng-repeat="file in banner.files">
+  <div class="media-left">
+    <swf-object swf-url="{{banner.$id}}/{{file.filename}}" swf-width="300" swf-height="250"></swf-object>
+  </div>
+  <div class="media-body">
+    <h4 class="media-heading">{{file.filename}}</h4>
+  </div>
+</div>

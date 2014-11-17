@@ -18,7 +18,8 @@ angular
     'ngTouch',
     'firebase',
     'angularFileUpload',
-    'services.config'
+    'services.config',
+    'swfobject'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -40,6 +41,22 @@ angular
       .when('/banners_edit/:id', {
         templateUrl: 'views/banners_create.html',
         controller: 'BannersEditCtrl',
+        resolve: {
+          banner: function($q, BannerService, $route) {
+            var defer = $q.defer();
+            var obj = BannerService.getBanner($route.current.params.id);
+
+            obj.$loaded().then(function() {
+              defer.resolve(obj);
+            });
+
+            return defer.promise;
+          }
+        }
+      })
+      .when('/banners_preview/:id', {
+        templateUrl: 'views/banners_preview.html',
+        controller: 'BannersPreviewCtrl',
         resolve: {
           banner: function($q, BannerService, $route) {
             var defer = $q.defer();
