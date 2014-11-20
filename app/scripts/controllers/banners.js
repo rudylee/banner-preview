@@ -8,8 +8,8 @@
  * Controller of the bannerPreviewApp
  */
 angular.module('bannerPreviewApp')
-  .controller('BannersCtrl', function ($scope, BannerService) {
-    $scope.banners = BannerService.getBanners();
+  .controller('BannersCtrl', function ($scope, banners) {
+    $scope.banners = banners;
 
     $scope.remove =  function(id) {
       BannerService.remove(id);

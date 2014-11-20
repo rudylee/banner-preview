@@ -9,7 +9,7 @@
  * Service in the bannerPreviewApp.
  */
 angular.module('bannerPreviewApp')
-  .service('BannerService', function BannerService($firebase, $q, configuration) {
+  .service('BannerService', function BannerService($firebase, $q, configuration, ngProgress) {
     var defer = $q.defer();
 
     this.getBanners = function() {

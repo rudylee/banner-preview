@@ -19,13 +19,29 @@ angular
     'firebase',
     'angularFileUpload',
     'services.config',
-    'swfobject'
+    'swfobject',
+    'ngProgress'
   ])
   .config(function ($routeProvider) {
     $routeProvider
       .when('/', {
         templateUrl: 'views/banners.html',
-        controller: 'BannersCtrl'
+        controller: 'BannersCtrl',
+        resolve: {
+          banners: function($q, BannerService, ngProgress) {
+            var defer = $q.defer();
+            var obj = BannerService.getBanners();
+
+            ngProgress.start();
+
+            obj.$loaded().then(function() {
+              defer.resolve(obj);
+              ngProgress.complete();
+            });
+
+            return defer.promise;
+          }
+        }
       })
       .when('/banners_create', {
         templateUrl: 'views/banners_create.html',
@@ -35,12 +51,14 @@ angular
         templateUrl: 'views/banners_edit.html',
         controller: 'BannersEditCtrl',
         resolve: {
-          banner: function($q, BannerService, $route) {
+          banner: function($q, BannerService, ngProgress, $route) {
             var defer = $q.defer();
             var obj = BannerService.getBanner($route.current.params.id);
+            ngProgress.start();
 
             obj.$loaded().then(function() {
               defer.resolve(obj);
+              ngProgress.complete();
             });
 
             return defer.promise;
