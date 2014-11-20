@@ -29,17 +29,10 @@ angular
       })
       .when('/banners_create', {
         templateUrl: 'views/banners_create.html',
-        controller: 'BannersCreateCtrl',
-        resolve: {
-          banner: function($q) {
-            var defer = $q.defer();
-            defer.resolve();
-            return defer.promise;
-          }
-        }
+        controller: 'BannersCreateCtrl'
       })
       .when('/banners_edit/:id', {
-        templateUrl: 'views/banners_create.html',
+        templateUrl: 'views/banners_edit.html',
         controller: 'BannersEditCtrl',
         resolve: {
           banner: function($q, BannerService, $route) {
