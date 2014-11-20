@@ -25,7 +25,7 @@ angular.module('bannerPreviewApp')
           data : {
             key: $scope.banner.$id + '/' + file.name, 
             AWSAccessKeyId: configuration.AWS.AccessKeyId,
-            acl: 'private', 
+            acl: 'public', 
             policy: configuration.AWS.policy,
             signature: configuration.AWS.signature,
             'Content-Type': file.type !== '' ? file.type : 'application/octet-stream', 
