@@ -10,15 +10,19 @@
  */
 angular.module('bannerPreviewApp')
   .controller('BannersCreateCtrl', function ($scope, $location, BannerService) {
+    $scope.loading = false;
 
     // Saves the banner to Firebase
     $scope.save = function () {
-      var name = 'Untitled';
-      if(angular.isObject($scope.banner)) {
-        name = $scope.banner.name;
+      if(!$scope.form.$valid) {
+        return;
       }
 
+      $scope.loading = true;
+
       BannerService.save(name).then(function(id) {
+        $scope.loading = false;
+
         // Redirects user to banner edit page
         $location.path('banners_edit/' + id);
       });

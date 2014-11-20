@@ -41,10 +41,14 @@ angular.module('bannerPreviewApp')
       var ref = new Firebase(configuration.firebaseUrl);
       var sync = $firebase(ref);
 
+      ngProgress.start();
+
       sync.$push({
         name: name,
         files: []
       }).then(function(pushRef) {
+        ngProgress.complete();
+
         defer.resolve(pushRef.name());
       });
 
