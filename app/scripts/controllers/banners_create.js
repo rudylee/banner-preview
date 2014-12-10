@@ -20,16 +20,11 @@ angular.module('bannerPreviewApp')
 
       $scope.loading = true;
 
-      BannerService.save(name).then(function(id) {
+      BannerService.save($scope.banner.name).then(function(id) {
         $scope.loading = false;
 
         // Redirects user to banner edit page
         $location.path('banners_edit/' + id);
       });
-    };
-
-    // Updates the banner to Firebase
-    $scope.update = function() {
-      $scope.banner.$save();
     };
   });
